@@ -1,9 +1,28 @@
-const DEFAULT_VALUE = 16;
-const slider = document.querySelector('#size-slider');
-const gridSizeValueDiv = document.querySelector("#size-value");
-const grid = document.getElementById('grid');
+const DEFAULT_SIZE = 16;
+const DEFAULT_COLOR = '#333333';
+const DEFAULT_MODE = 'color';
+
+let colorMode = false;
+let currentColor = DEFAULT_COLOR;
+let currentMode = DEFAULT_MODE;
+let currentSize = DEFAULT_SIZE;
+
+function setCurrentColor(newColor) {
+    currentColor = newColor;
+}
+
+function setCurrentMode(newMode){
+    currentMode = newMode;
+}
+
 const colorPicker = document.querySelector('#color-picker');
-var colorMode = false;
+const colorBtn = document.querySelector('#color-btn');
+const rainbowBtn = document.querySelector('#rainbow-btn');
+const eraserBtn = document.querySelector('#eraser-btn');
+const clearBtn = document.querySelector('#clear-btn');
+const gridSizeValueDiv = document.querySelector("#size-value");
+const slider = document.querySelector('#size-slider');
+const grid = document.getElementById('grid');
 
 // Update the current slider value (each time you drag the slider handle)
 slider.oninput = () => {
@@ -39,6 +58,6 @@ function setupGrid(size) {
 }
 
 window.onload = () =>{
-    setupGrid(slider.value)
-    gridSizeValueDiv.innerHTML = `${DEFAULT_VALUE} x ${DEFAULT_VALUE}`; // Display the default slider value
+    setupGrid(DEFAULT_SIZE)
+    gridSizeValueDiv.innerHTML = `${DEFAULT_SIZE} x ${DEFAULT_SIZE}`; // Display the default slider value
 }
