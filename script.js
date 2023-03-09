@@ -1,23 +1,40 @@
 const DEFAULT_VALUE = 16;
 const slider = document.querySelector('#size-slider');
 const gridSizeValueDiv = document.querySelector("#size-value");
-const grid = document.getElementById('grid')
+const grid = document.getElementById('grid');
+const colorPicker = document.querySelector('#color-picker');
+var colorMode = false;
 
 // Update the current slider value (each time you drag the slider handle)
-slider.oninput = function() {
-    setupGrid(slider.value)
-    gridSizeValueDiv.innerHTML = `${this.value} x ${this.value}`;
+slider.oninput = () => {
+    clearGrid(slider.value)
+    gridSizeValueDiv.innerHTML = `${slider.value} x ${slider.value}`;
 }
 
-//THis function sets the grid with the give size which is passed a parameter to the function
-function setupGrid(size) {
+function colorGridElement(e) {
+    if(colorMode) e.srcElement.style.backgroundColor = colorPicker.value;
+}
+
+function clearGrid(){
     grid.innerHTML = '';
+}
+
+function reloadGrid(size) {
+    clearGrid();
+    setupGrid(size);
+}
+
+//This function sets the grid with the give size which is passed a parameter to the function
+function setupGrid(size) {
     grid.style.gridTemplateColumns = `repeat(${size},auto)`;
     grid.style.gridTemplateRows = `repeat(${size},auto)`;
-    for(var i=0;i<size*size;i++){
-        var gridElement = document.createElement('div')
-        gridElement.classList.add('grid-element')
-        grid.appendChild(gridElement)
+    for(var i=0; i < size * size; i++){
+        const gridElement = document.createElement('div');
+        gridElement.classList.add('grid-element');
+        gridElement.addEventListener('mousedown',() => {colorMode=true});
+        gridElement.addEventListener('mousemove',colorGridElement);
+        gridElement.addEventListener('mouseup',()=> {colorMode=false});
+        grid.appendChild(gridElement);
     }
 }
 
