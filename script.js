@@ -3,7 +3,7 @@ const DEFAULT_COLOR = '#333333';
 const DEFAULT_MODE = 'color';
 const WHITE_COLOR = '#fefefe'
 
-let colorMode = false;
+let paintMode = false;
 let currentColor = DEFAULT_COLOR;
 let currentMode = DEFAULT_MODE;
 let currentSize = DEFAULT_SIZE;
@@ -27,6 +27,7 @@ const grid = document.getElementById('grid');
 
 colorPicker.oninput = (e) => setCurrentColor(e.target.value)
 colorBtn.onclick = () => currentMode = 'color'
+rainbowBtn.onclick = () => currentMode = 'rainbow'
 eraserBtn.onclick = () => currentMode='eraser'
 clearBtn.onclick = () => reloadGrid(currentSize)
 
@@ -37,12 +38,23 @@ slider.oninput = () => {
     gridSizeValueDiv.innerHTML = `${slider.value} x ${slider.value}`;
 }
 
+function generateRandomColor(){
+    let maxVal = 0xFFFFFF; // 16777215
+    let randomNumber = Math.random() * maxVal; 
+    randomNumber = Math.floor(randomNumber);
+    randomNumber = randomNumber.toString(16);
+    let randColor = randomNumber.padStart(6, 0);   
+    return `#${randColor.toUpperCase()}`
+}
+
 function colorGridElement(e) {
-    if(!colorMode) return;
+    if(!paintMode) return;
     if(currentMode == 'color'){
         e.srcElement.style.backgroundColor = currentColor;
     }else if(currentMode == 'eraser'){
         e.srcElement.style.backgroundColor = WHITE_COLOR;
+    }else if(currentMode == 'rainbow'){
+        e.srcElement.style.backgroundColor = generateRandomColor();
     }
 }
 
@@ -51,6 +63,7 @@ function clearGrid(){
 }
 
 function reloadGrid(size) {
+    currentMode = 'color';
     clearGrid();
     setupGrid(size);
 }
@@ -62,9 +75,9 @@ function setupGrid(size) {
     for(var i=0; i < size * size; i++){
         const gridElement = document.createElement('div');
         gridElement.classList.add('grid-element');
-        gridElement.addEventListener('mousedown',() => {colorMode=true});
+        gridElement.addEventListener('mousedown',() => {paintMode=true});
         gridElement.addEventListener('mousemove',colorGridElement);
-        gridElement.addEventListener('mouseup',()=> {colorMode=false});
+        gridElement.addEventListener('mouseup',()=> {paintMode=false});
         grid.appendChild(gridElement);
     }
 }
