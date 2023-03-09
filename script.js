@@ -9,10 +9,12 @@ let currentMode = DEFAULT_MODE;
 let currentSize = DEFAULT_SIZE;
 
 function setCurrentColor(newColor) {
+    currentMode = 'color';
     currentColor = newColor;
 }
 
 function setCurrentMode(newMode){
+    activateButton(newMode)
     currentMode = newMode;
 }
 
@@ -26,9 +28,9 @@ const slider = document.querySelector('#size-slider');
 const grid = document.getElementById('grid');
 
 colorPicker.oninput = (e) => setCurrentColor(e.target.value)
-colorBtn.onclick = () => currentMode = 'color'
-rainbowBtn.onclick = () => currentMode = 'rainbow'
-eraserBtn.onclick = () => currentMode='eraser'
+colorBtn.onclick = () => setCurrentMode('color')
+rainbowBtn.onclick = () => setCurrentMode('rainbow')
+eraserBtn.onclick = () => setCurrentMode('eraser')
 clearBtn.onclick = () => reloadGrid(currentSize)
 
 // Update the current slider value (each time you drag the slider handle)
@@ -82,7 +84,26 @@ function setupGrid(size) {
     }
 }
 
+function activateButton(newMode) {
+    if (currentMode === 'rainbow') {
+      rainbowBtn.classList.remove('active')
+    } else if (currentMode === 'color') {
+      colorBtn.classList.remove('active')
+    } else if (currentMode === 'eraser') {
+      eraserBtn.classList.remove('active')
+    }
+  
+    if (newMode === 'rainbow') {
+      rainbowBtn.classList.add('active')
+    } else if (newMode === 'color') {
+      colorBtn.classList.add('active')
+    } else if (newMode === 'eraser') {
+      eraserBtn.classList.add('active')
+    }
+  }
+
 window.onload = () =>{
     setupGrid(DEFAULT_SIZE)
     gridSizeValueDiv.innerHTML = `${DEFAULT_SIZE} x ${DEFAULT_SIZE}`; // Display the default slider value
+    activateButton(DEFAULT_MODE)
 }
