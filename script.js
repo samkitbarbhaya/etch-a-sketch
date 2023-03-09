@@ -1,6 +1,7 @@
 const DEFAULT_SIZE = 16;
 const DEFAULT_COLOR = '#333333';
 const DEFAULT_MODE = 'color';
+const WHITE_COLOR = '#fefefe'
 
 let colorMode = false;
 let currentColor = DEFAULT_COLOR;
@@ -25,19 +26,24 @@ const slider = document.querySelector('#size-slider');
 const grid = document.getElementById('grid');
 
 colorPicker.oninput = (e) => setCurrentColor(e.target.value)
-
-
-clearBtn.onclick = () => {reloadGrid(currentSize)}
+colorBtn.onclick = () => currentMode = 'color'
+eraserBtn.onclick = () => currentMode='eraser'
+clearBtn.onclick = () => reloadGrid(currentSize)
 
 // Update the current slider value (each time you drag the slider handle)
 slider.oninput = () => {
     currentSize = slider.value;
-    clearGrid(slider.value)
+    reloadGrid(slider.value);
     gridSizeValueDiv.innerHTML = `${slider.value} x ${slider.value}`;
 }
 
 function colorGridElement(e) {
-    if(colorMode) e.srcElement.style.backgroundColor = currentColor;
+    if(!colorMode) return;
+    if(currentMode == 'color'){
+        e.srcElement.style.backgroundColor = currentColor;
+    }else if(currentMode == 'eraser'){
+        e.srcElement.style.backgroundColor = WHITE_COLOR;
+    }
 }
 
 function clearGrid(){
