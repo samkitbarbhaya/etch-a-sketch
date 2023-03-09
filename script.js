@@ -24,14 +24,20 @@ const gridSizeValueDiv = document.querySelector("#size-value");
 const slider = document.querySelector('#size-slider');
 const grid = document.getElementById('grid');
 
+colorPicker.oninput = (e) => setCurrentColor(e.target.value)
+
+
+clearBtn.onclick = () => {reloadGrid(currentSize)}
+
 // Update the current slider value (each time you drag the slider handle)
 slider.oninput = () => {
+    currentSize = slider.value;
     clearGrid(slider.value)
     gridSizeValueDiv.innerHTML = `${slider.value} x ${slider.value}`;
 }
 
 function colorGridElement(e) {
-    if(colorMode) e.srcElement.style.backgroundColor = colorPicker.value;
+    if(colorMode) e.srcElement.style.backgroundColor = currentColor;
 }
 
 function clearGrid(){
