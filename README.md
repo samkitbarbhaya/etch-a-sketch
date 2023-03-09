@@ -2,4 +2,4 @@
 
 Etch a sketch game created using JavaScript, HTML, CSS.
 
-[Live Demo]
+[Live Demo](www.google.com)
