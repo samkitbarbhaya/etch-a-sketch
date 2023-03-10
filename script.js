@@ -65,7 +65,7 @@ function clearGrid(){
 }
 
 function reloadGrid(size) {
-    currentMode = 'color';
+    setCurrentMode('color');
     clearGrid();
     setupGrid(size);
 }
